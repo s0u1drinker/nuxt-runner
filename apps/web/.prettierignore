@@ -1,0 +1,9 @@
+.nuxt
+.output
+dist
+.DS_Store
+node_modules
+/app/.output
+/app/public
+.env
+.env.*

@@ -1,0 +1,21 @@
+:root {
+  /* Цвет */
+  --color-text: #1f2937;
+  --black: #000;
+  --white: #fff;
+  --red: red;
+  /* Основные отступы */
+  --indent: 1rem;
+  --indent-quarter: calc(var(--indent) / 4);/* 0.25x */
+  --indent-half: calc(var(--indent) / 2);/* 0.5x */
+  --indent-and-half: calc(var(--indent) + var(--indent-half)); /* 1.5x */
+  --indent-double: calc(var(--indent) * 2);/* 2x */
+  /* Внешний вид блоков */
+  --border: 1px solid;
+  --border-radius: var(--indent-half);
+  /* Тени */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow: 0 0 .5rem rgba(0, 0, 0, .5);
+}
