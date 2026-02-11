@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2026-02-09',
   devtools: { enabled: false },
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt', '@nuxtjs/device'],
   postcss: {
     plugins: {
       '@csstools/postcss-global-data': {
@@ -16,7 +16,5 @@ export default defineNuxtConfig({
     dirs: ['app/stores'],
   },
   srcDir: 'app/',
-  css: [
-    '~/assets/styles/main.css',
-  ],
+  css: ['~/assets/styles/main.css'],
 });
