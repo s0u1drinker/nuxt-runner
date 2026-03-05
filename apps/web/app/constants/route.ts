@@ -1,14 +1,15 @@
 /** Страница. */
 export const PAGE = {
-  index: 'index',
   login: 'login',
+  register: 'register',
   dashboard: 'dashboard',
 } as const;
 
 /** Путь к странице. */
 export const PAGE_PATH = {
-  index: `/${PAGE.index}`,
+  index: '/',
   login: `/${PAGE.login}`,
+  register: `/${PAGE.register}`,
   dashboard: `/${PAGE.dashboard}`,
 } as const;
 

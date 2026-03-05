@@ -2,3 +2,8 @@ export * from './route';
 export * from './device';
 export * from './background';
 export * from './window';
+export * from './components';
+export * from './message';
+export * from './sessionStorage';
+export * from './cookie';
+export * from './auth';

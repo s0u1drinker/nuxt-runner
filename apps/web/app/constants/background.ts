@@ -20,9 +20,9 @@ export const BG_AUTH: TImagesAuth = {
 
 /** Список градиентов. */
 export const GRADIENTS = [
-  'linear-gradient(90deg, #f598a8, #f6edb2)',
-  'linear-gradient(90deg, #cfecd0, #a0cea7, #9ec0db)',
-  'linear-gradient(90deg, #b9deed, #efefef)',
-  'linear-gradient(90deg, #aea4e3, #d3ffe8)',
+  'linear-gradient(135deg, #f598a8, #f6edb2)',
+  'linear-gradient(135deg, #cfecd0, #a0cea7, #9ec0db)',
+  'linear-gradient(135deg, #b9deed, #efefef)',
+  'linear-gradient(135deg, #aea4e3, #d3ffe8)',
   'linear-gradient(135deg, #e55d87 0%, #5fc3e4 100%)',
 ];
