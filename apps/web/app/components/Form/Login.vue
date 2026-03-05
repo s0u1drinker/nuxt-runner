@@ -10,8 +10,8 @@
     message.value = 'Пока не работает';
   };
   /** Регистрация на сайте. */
-  const register = () => {
-    message.value = 'Пока не готово';
+  const registration = () => {
+    navigateTo(PAGE_PATH.signup);
   };
   /** Напомнить пароль. */
   const remindPassword = () => {
@@ -68,7 +68,7 @@
           text="Регистрация"
           button-style="outline"
           :elevated="true"
-          @click="register"
+          @click="registration"
         />
       </template>
 
@@ -87,7 +87,6 @@
   .form-login {
     --form-title: 1.5rem;
 
-    border: var(--border) var(--white);
     box-shadow: var(--shadow);
     background-color: var(--white);
     display: flex;
