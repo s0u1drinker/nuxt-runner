@@ -5,7 +5,7 @@ import { PAGE_PATH } from '@constants';
  */
 export default defineNuxtRouteMiddleware((to, from) => {
   const isUserAuth = isUserAuthenticated();
-  const guestRoutes: string[] = [PAGE_PATH.login, PAGE_PATH.register];
+  const guestRoutes: string[] = [PAGE_PATH.login, PAGE_PATH.signup];
 
   if (isUserAuth) {
     if (guestRoutes.includes(to.path)) {

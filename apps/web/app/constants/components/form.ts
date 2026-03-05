@@ -1,6 +1,6 @@
 export const FORM_TITLE = {
   login: 'Вход',
-  register: 'Регистрация',
+  registration: 'Регистрация',
 } as const;
 
 export const FORM_CLASS = {

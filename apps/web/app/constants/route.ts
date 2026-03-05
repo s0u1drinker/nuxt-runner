@@ -1,7 +1,7 @@
 /** Страница. */
 export const PAGE = {
   login: 'login',
-  register: 'register',
+  signup: 'signup',
   dashboard: 'dashboard',
 } as const;
 
@@ -9,7 +9,7 @@ export const PAGE = {
 export const PAGE_PATH = {
   index: '/',
   login: `/${PAGE.login}`,
-  register: `/${PAGE.register}`,
+  signup: `/${PAGE.signup}`,
   dashboard: `/${PAGE.dashboard}`,
 } as const;
 
