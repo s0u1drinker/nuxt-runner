@@ -17,9 +17,8 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-
-    @media (--bp-xs) {
-      color: purple;
-    }
+    display: flex;
+    justify-content: flex-end;
+    overflow: hidden;
   }
 </style>

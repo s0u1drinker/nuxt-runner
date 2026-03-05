@@ -17,7 +17,6 @@ import type { TDevice } from '~/types';
  * @returns Градиент или url картинки.
  */
 export function useBackgroundLayout(): Ref<string> {
-  const device = useDevice();
   const bgMap = useState<Map<TDevice, string>>('bgMap', () => new Map());
   const background = ref<string>('');
 
