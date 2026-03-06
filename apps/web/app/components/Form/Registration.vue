@@ -1,14 +1,41 @@
 <script setup lang="ts">
-  import { FORM_TITLE, PAGE_PATH } from '@constants';
+  import {
+    FORM_TITLE,
+    PAGE_PATH,
+    FORM_REGISTRATION_CLASS,
+    FORM_REGISTRATION_BASE_CLASS_SELECTOR,
+  } from '@constants';
 
+  const { $gsap } = useNuxtApp();
+  const animateAuthForm = useState<boolean>('animateAuthForm', () => false);
   const userLogin = ref<string>('');
   const userPassword = ref<string>('');
   const userPasswordRepeat = ref<string>('');
   const message = ref<string>('');
 
+  const formClass = computed(() => [
+    FORM_REGISTRATION_CLASS.base,
+    {
+      [FORM_REGISTRATION_CLASS.hide]: animateAuthForm.value,
+    },
+  ]);
+
   /** Вход на сайт. */
   const login = () => {
-    navigateTo(PAGE_PATH.login);
+    animateAuthForm.value = true;
+    // Форма вход красиво исчезает...
+    $gsap.fromTo(
+      FORM_REGISTRATION_BASE_CLASS_SELECTOR,
+      { opacity: 1 },
+      {
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.in',
+        onComplete: () => {
+          navigateTo(PAGE_PATH.login);
+        },
+      },
+    );
   };
   /** Регистрация на сайте. */
   const registration = () => {
@@ -20,11 +47,28 @@
       navigateTo(PAGE_PATH.index);
     }
   };
+
+  onMounted(() => {
+    if (animateAuthForm.value) {
+      $gsap.fromTo(
+        FORM_REGISTRATION_BASE_CLASS_SELECTOR,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 1,
+          ease: 'power2.in',
+          onComplete: () => {
+            animateAuthForm.value = false;
+          },
+        },
+      );
+    }
+  });
 </script>
 
 <template>
   <FormBase
-    class="form-registration"
+    :class="formClass"
     :title="FORM_TITLE.registration"
     :message
     message-type="error"
@@ -32,14 +76,14 @@
     <template #body>
       <VscInputText
         id="login"
-        class="form-registration__item"
+        :class="FORM_REGISTRATION_CLASS.item"
         label="Электронная почта"
         label-style="column"
         v-model="userLogin"
       />
       <VscInputPassword
         id="password"
-        class="form-registration__item"
+        :class="FORM_REGISTRATION_CLASS.item"
         label="Пароль"
         label-style="column"
         :required="false"
@@ -47,7 +91,7 @@
       />
       <VscInputPassword
         id="passwordRepeat"
-        class="form-registration__item"
+        :class="FORM_REGISTRATION_CLASS.item"
         label="Повторите пароль"
         label-style="column"
         :required="false"
@@ -56,7 +100,7 @@
     </template>
 
     <template #buttons>
-      <div class="form-registration__buttons">
+      <div :class="FORM_REGISTRATION_CLASS.buttons">
         <VscButton
           text="Создать аккаунт"
           :elevated="true"
@@ -99,6 +143,10 @@
     @media (--bp-lg) {
       padding-inline: var(--indent-double);
       width: 22rem;
+    }
+
+    &_hide {
+      opacity: 0;
     }
 
     &__item {
