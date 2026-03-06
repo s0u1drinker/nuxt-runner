@@ -15,6 +15,7 @@
   "dependencies": {
     "@nuxtjs/device": "^4.0.0",
     "@pinia/nuxt": "0.11.3",
+    "gsap": "^3.14.2",
     "nuxt": "^4.3.1",
     "shared-types": "workspace:^",
     "vue": "^3.5.27",
