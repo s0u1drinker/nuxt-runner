@@ -2,9 +2,12 @@
   import {
     FORM_TITLE,
     PAGE_PATH,
-    FORM_REGISTRATION_CLASS,
-    FORM_REGISTRATION_BASE_CLASS_SELECTOR,
+    FORM_REGISTRATION_BASE_CLASS,
+    FORM_REGISTRATION_EL_CLASS,
+    FORM_REGISTRATION_MODIFIERS,
+    MESSAGE_MAP,
   } from '@constants';
+  import type { TFormRegistrationModifier } from '@types';
 
   const { fadeIn, fadeOut } = useAnimationGSAP();
   const animateAuthForm = useState<boolean>('animateAuthForm', () => false);
@@ -12,19 +15,23 @@
   const userPassword = ref<string>('');
   const userPasswordRepeat = ref<string>('');
   const message = ref<string>('');
+  const FORM_SELECTOR = `.${FORM_REGISTRATION_BASE_CLASS}`;
 
-  const formClass = computed(() => [
-    FORM_REGISTRATION_CLASS.base,
-    {
-      [FORM_REGISTRATION_CLASS.hide]: animateAuthForm.value,
-    },
-  ]);
+  /** Список модификаторов */
+  const modifiersList = computed<TFormRegistrationModifier[]>(() => {
+    const list: TFormRegistrationModifier[] = [];
+
+    animateAuthForm.value && list.push(FORM_REGISTRATION_MODIFIERS.hide);
+
+    return list;
+  });
+  const formClass = useComputedModifiersClass(FORM_REGISTRATION_BASE_CLASS, modifiersList.value);
 
   /** Вход на сайт. */
   const login = () => {
     animateAuthForm.value = true;
 
-    fadeOut(FORM_REGISTRATION_BASE_CLASS_SELECTOR, {
+    fadeOut(FORM_SELECTOR, {
       onComplete: () => {
         navigateTo(PAGE_PATH.login);
       },
@@ -32,7 +39,7 @@
   };
   /** Регистрация на сайте. */
   const registration = () => {
-    message.value = 'Пока не готово';
+    message.value = MESSAGE_MAP.notWorking.notReady;
   };
   /** Вход на сайт без логина и пароля. */
   const loginForPoliteUsers = () => {
@@ -43,7 +50,7 @@
 
   onMounted(() => {
     if (animateAuthForm.value) {
-      fadeIn(FORM_REGISTRATION_BASE_CLASS_SELECTOR, {
+      fadeIn(FORM_SELECTOR, {
         onComplete: () => {
           animateAuthForm.value = false;
         },
@@ -62,14 +69,14 @@
     <template #body>
       <VscInputText
         id="login"
-        :class="FORM_REGISTRATION_CLASS.item"
+        :class="FORM_REGISTRATION_EL_CLASS.item"
         label="Электронная почта"
         label-style="column"
         v-model="userLogin"
       />
       <VscInputPassword
         id="password"
-        :class="FORM_REGISTRATION_CLASS.item"
+        :class="FORM_REGISTRATION_EL_CLASS.item"
         label="Пароль"
         label-style="column"
         :required="false"
@@ -77,7 +84,7 @@
       />
       <VscInputPassword
         id="passwordRepeat"
-        :class="FORM_REGISTRATION_CLASS.item"
+        :class="FORM_REGISTRATION_EL_CLASS.item"
         label="Повторите пароль"
         label-style="column"
         :required="false"
@@ -86,7 +93,7 @@
     </template>
 
     <template #buttons>
-      <div :class="FORM_REGISTRATION_CLASS.buttons">
+      <div :class="FORM_REGISTRATION_EL_CLASS.buttons">
         <VscButton
           text="Создать аккаунт"
           :elevated="true"

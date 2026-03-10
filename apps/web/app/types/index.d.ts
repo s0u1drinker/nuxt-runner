@@ -5,3 +5,4 @@ export * from './utils';
 export * from './components';
 export * from './message';
 export * from './animation';
+export * from './class';

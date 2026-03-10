@@ -10,8 +10,8 @@ export const FORM_CLASS = {
 // Форма входа.
 export const FORM_LOGIN_BASE_CLASS = 'form-login';
 
-export const FORM_LOGIN_MOD_CLASS = {
-  hide: `${FORM_LOGIN_BASE_CLASS}_hide`,
+export const FORM_LOGIN_MODIFIERS = {
+  hide: 'hide',
 } as const;
 
 export const FORM_LOGIN_EL_CLASS = {
@@ -21,13 +21,13 @@ export const FORM_LOGIN_EL_CLASS = {
 } as const;
 
 // Форма регистрации.
-const FORM_REGISTRATION_BASE_CLASS = 'form-registration';
+export const FORM_REGISTRATION_BASE_CLASS = 'form-registration';
 
-export const FORM_REGISTRATION_BASE_CLASS_SELECTOR = `.${FORM_REGISTRATION_BASE_CLASS}`;
+export const FORM_REGISTRATION_MODIFIERS = {
+  hide: 'hide',
+} as const;
 
-export const FORM_REGISTRATION_CLASS = {
-  base: FORM_REGISTRATION_BASE_CLASS,
-  hide: `${FORM_REGISTRATION_BASE_CLASS}_hide`,
+export const FORM_REGISTRATION_EL_CLASS = {
   item: `${FORM_REGISTRATION_BASE_CLASS}__item`,
   buttons: `${FORM_REGISTRATION_BASE_CLASS}__buttons`,
 } as const;

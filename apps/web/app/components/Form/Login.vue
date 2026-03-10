@@ -3,9 +3,11 @@
     FORM_TITLE,
     PAGE_PATH,
     FORM_LOGIN_BASE_CLASS,
-    FORM_LOGIN_MOD_CLASS,
     FORM_LOGIN_EL_CLASS,
+    FORM_LOGIN_MODIFIERS,
+    MESSAGE_MAP,
   } from '@constants';
+  import type { TFormLoginModifier } from '@types';
 
   const { fadeIn, fadeOut } = useAnimationGSAP();
   const animateAuthForm = useState<boolean>('animateAuthForm', () => false);
@@ -14,16 +16,19 @@
   const message = ref<string>('');
   const formLoginRef = ref<HTMLElement | null>(null);
 
-  const formClass = computed(() => [
-    FORM_LOGIN_BASE_CLASS,
-    {
-      [FORM_LOGIN_MOD_CLASS.hide]: animateAuthForm.value,
-    },
-  ]);
+  /** Список модификаторов */
+  const modifiersList = computed<TFormLoginModifier[]>(() => {
+    const list: TFormLoginModifier[] = [];
+
+    animateAuthForm.value && list.push(FORM_LOGIN_MODIFIERS.hide);
+
+    return list;
+  });
+  const formClass = useComputedModifiersClass(FORM_LOGIN_BASE_CLASS, modifiersList.value);
 
   /** Вход на сайт. */
   const login = () => {
-    message.value = 'Пока не работает';
+    message.value = MESSAGE_MAP.notWorking.yet;
   };
   /** Регистрация на сайте. */
   const registration = () => {
@@ -37,7 +42,7 @@
   };
   /** Напомнить пароль. */
   const remindPassword = () => {
-    message.value = 'Это фиаско, братан!';
+    message.value = MESSAGE_MAP.mem.fiasco;
   };
 
   /** Вход на сайт без логина и пароля. */
@@ -124,6 +129,7 @@
 
     box-shadow: var(--shadow);
     background-color: var(--white);
+    border-radius: var(--border-radius);
     display: flex;
     text-align: center;
     width: 20rem;
@@ -131,6 +137,7 @@
 
     @media (--bp-xl) {
       width: 33.33%;
+      border-radius: 0;
       margin: 0;
     }
 
