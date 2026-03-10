@@ -6,7 +6,7 @@
     FORM_REGISTRATION_BASE_CLASS_SELECTOR,
   } from '@constants';
 
-  const { $gsap } = useNuxtApp();
+  const { fadeIn, fadeOut } = useAnimationGSAP();
   const animateAuthForm = useState<boolean>('animateAuthForm', () => false);
   const userLogin = ref<string>('');
   const userPassword = ref<string>('');
@@ -23,19 +23,12 @@
   /** Вход на сайт. */
   const login = () => {
     animateAuthForm.value = true;
-    // Форма вход красиво исчезает...
-    $gsap.fromTo(
-      FORM_REGISTRATION_BASE_CLASS_SELECTOR,
-      { opacity: 1 },
-      {
-        opacity: 0,
-        duration: 1,
-        ease: 'power2.in',
-        onComplete: () => {
-          navigateTo(PAGE_PATH.login);
-        },
+
+    fadeOut(FORM_REGISTRATION_BASE_CLASS_SELECTOR, {
+      onComplete: () => {
+        navigateTo(PAGE_PATH.login);
       },
-    );
+    });
   };
   /** Регистрация на сайте. */
   const registration = () => {
@@ -50,18 +43,11 @@
 
   onMounted(() => {
     if (animateAuthForm.value) {
-      $gsap.fromTo(
-        FORM_REGISTRATION_BASE_CLASS_SELECTOR,
-        { opacity: 0 },
-        {
-          opacity: 1,
-          duration: 1,
-          ease: 'power2.in',
-          onComplete: () => {
-            animateAuthForm.value = false;
-          },
+      fadeIn(FORM_REGISTRATION_BASE_CLASS_SELECTOR, {
+        onComplete: () => {
+          animateAuthForm.value = false;
         },
-      );
+      });
     }
   });
 </script>

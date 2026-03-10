@@ -1,7 +1,13 @@
 <script setup lang="ts">
-  import { FORM_TITLE, PAGE_PATH, FORM_LOGIN_CLASS } from '@constants';
+  import {
+    FORM_TITLE,
+    PAGE_PATH,
+    FORM_LOGIN_BASE_CLASS,
+    FORM_LOGIN_MOD_CLASS,
+    FORM_LOGIN_EL_CLASS,
+  } from '@constants';
 
-  const { $gsap } = useNuxtApp();
+  const { fadeIn, fadeOut } = useAnimationGSAP();
   const animateAuthForm = useState<boolean>('animateAuthForm', () => false);
   const userLogin = ref<string>('');
   const userPassword = ref<string>('');
@@ -9,9 +15,9 @@
   const formLoginRef = ref<HTMLElement | null>(null);
 
   const formClass = computed(() => [
-    FORM_LOGIN_CLASS.base,
+    FORM_LOGIN_BASE_CLASS,
     {
-      [FORM_LOGIN_CLASS.hide]: animateAuthForm.value,
+      [FORM_LOGIN_MOD_CLASS.hide]: animateAuthForm.value,
     },
   ]);
 
@@ -22,19 +28,12 @@
   /** Регистрация на сайте. */
   const registration = () => {
     animateAuthForm.value = true;
-    // Форма вход красиво исчезает...
-    $gsap.fromTo(
-      formLoginRef.value,
-      { opacity: 1 },
-      {
-        opacity: 0,
-        duration: 1,
-        ease: 'power2.in',
-        onComplete: () => {
-          navigateTo(PAGE_PATH.signup);
-        },
+
+    fadeOut(formLoginRef.value, {
+      onComplete: () => {
+        navigateTo(PAGE_PATH.signup);
       },
-    );
+    });
   };
   /** Напомнить пароль. */
   const remindPassword = () => {
@@ -50,18 +49,11 @@
 
   onMounted(() => {
     if (animateAuthForm.value) {
-      $gsap.fromTo(
-        formLoginRef.value,
-        { opacity: 0 },
-        {
-          opacity: 1,
-          duration: 1,
-          ease: 'power2.in',
-          onComplete: () => {
-            animateAuthForm.value = false;
-          },
+      fadeIn(formLoginRef.value, {
+        onComplete: () => {
+          animateAuthForm.value = false;
         },
-      );
+      });
     }
   });
 </script>
@@ -72,7 +64,7 @@
     ref="formLoginRef"
   >
     <FormBase
-      :class="FORM_LOGIN_CLASS.form"
+      :class="FORM_LOGIN_EL_CLASS.form"
       :title="FORM_TITLE.login"
       :message
       message-type="error"
@@ -80,14 +72,14 @@
       <template #body>
         <VscInputText
           id="login"
-          :class="FORM_LOGIN_CLASS.item"
+          :class="FORM_LOGIN_EL_CLASS.item"
           label="Логин"
           label-style="column"
           v-model="userLogin"
         />
         <VscInputPassword
           id="password"
-          :class="FORM_LOGIN_CLASS.item"
+          :class="FORM_LOGIN_EL_CLASS.item"
           label="Пароль"
           label-style="column"
           :required="false"
@@ -97,7 +89,7 @@
 
       <template #buttons>
         <VscButton
-          :class="FORM_LOGIN_CLASS.buttonReminder"
+          :class="FORM_LOGIN_EL_CLASS.buttonReminder"
           text="Я забыл пароль =("
           button-style="plain"
           @click="remindPassword"

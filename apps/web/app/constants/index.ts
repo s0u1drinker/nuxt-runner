@@ -7,3 +7,4 @@ export * from './message';
 export * from './sessionStorage';
 export * from './cookie';
 export * from './auth';
+export * from './animation';

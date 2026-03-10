@@ -8,11 +8,13 @@ export const FORM_CLASS = {
 } as const;
 
 // Форма входа.
-const FORM_LOGIN_BASE_CLASS = 'form-login';
+export const FORM_LOGIN_BASE_CLASS = 'form-login';
 
-export const FORM_LOGIN_CLASS = {
-  base: FORM_LOGIN_BASE_CLASS,
+export const FORM_LOGIN_MOD_CLASS = {
   hide: `${FORM_LOGIN_BASE_CLASS}_hide`,
+} as const;
+
+export const FORM_LOGIN_EL_CLASS = {
   form: `${FORM_LOGIN_BASE_CLASS}__form`,
   item: `${FORM_LOGIN_BASE_CLASS}__item`,
   buttonReminder: `${FORM_LOGIN_BASE_CLASS}__button-reminder`,
