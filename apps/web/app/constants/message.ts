@@ -4,3 +4,13 @@ export const MESSAGE_TYPE = {
   error: 'error',
   default: 'default',
 } as const;
+
+export const MESSAGE_MAP = {
+  notWorking: {
+    yet: 'Пока не работает',
+    notReady: 'Пока не готово',
+  },
+  mem: {
+    fiasco: 'Это фиаско, братан!',
+  },
+};
