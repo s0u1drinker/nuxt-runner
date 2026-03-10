@@ -25,6 +25,7 @@ export default defineNuxtConfig({
     '@components': fileURLToPath(new URL('./app/components', import.meta.url)),
     '@constants': fileURLToPath(new URL('./app/constants', import.meta.url)),
     '@types': fileURLToPath(new URL('./app/types', import.meta.url)),
+    '@utils': fileURLToPath(new URL('./app/utils', import.meta.url)),
   },
   css: ['~/assets/styles/main.css'],
   devServer: {

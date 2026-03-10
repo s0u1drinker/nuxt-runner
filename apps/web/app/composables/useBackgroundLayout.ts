@@ -1,4 +1,3 @@
-import { useDevice } from '#imports';
 import {
   BG_AUTH,
   DEVICE,
