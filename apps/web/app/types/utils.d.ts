@@ -1,8 +1,11 @@
 /** Идентификатор setTimeout. */
 export type ReturnTimeOut = ReturnType<typeof setTimeout>;
 
-/** Универсальный тип для любой функции. */
+/** Тип для функции, о которой ничего не известно. */
 export type UnknownFunction = (...args: unknown[]) => unknown;
+
+/** Тип для функции, которая ничего не возвращает. */
+export type VoidFunction = () => void;
 
 /** Тип для void-функции с this. */
 export type ThisVoidFunction<F extends UnknownFunction> = (
@@ -16,5 +19,5 @@ export type ThisVoidFunction<F extends UnknownFunction> = (
  * @template F Тип оригинальной функции.
  */
 export type ThrottledFunction<F extends UnknownFunction> = ThisVoidFunction<F> & {
-  cancel: () => void;
+  cancel: VoidFunction;
 };

@@ -5,5 +5,5 @@
 </script>
 
 <template>
-  <FormLogin />
+  <FormRegistration />
 </template>

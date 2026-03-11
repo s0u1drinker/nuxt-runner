@@ -1,5 +1,10 @@
 import type { UnknownFunction, ThrottledFunction, ReturnTimeOut } from '~/types';
 
+/** Универсальная проверка на SSR. */
+export function isSSR(): boolean {
+  return typeof window === 'undefined';
+}
+
 /**
  * Ограничивает частоту вызова функции.
  * @param func Функция, которую нужно ограничить.

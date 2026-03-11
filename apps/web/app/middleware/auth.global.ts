@@ -1,20 +1,23 @@
-import { PAGE_PATH } from '~/constants'
+import { PAGE_PATH } from '@constants';
 
 /**
  * Глобальный middleware для проверки аутентификации пользователя.
- * Редиректит неавторизованных пользователей на страницу логина,
- * а авторизованных пользователей со страницы логина на главную.
  */
 export default defineNuxtRouteMiddleware((to, from) => {
-  const isUserAuth = isAuthenticated();
+  const isUserAuth = isUserAuthenticated();
+  const guestRoutes: string[] = [PAGE_PATH.login, PAGE_PATH.signup];
 
-  // Если пользователь авторизован и пытается зайти на страницу логина.
-  if (isUserAuth && to.path === PAGE_PATH.login) {
-    return navigateTo(PAGE_PATH.index);
+  if (isUserAuth) {
+    if (guestRoutes.includes(to.path)) {
+      return navigateTo(PAGE_PATH.index);
+    }
+
+    return;
   }
 
-  // Если пользователь не авторизован и не на странице логина.
-  if (!isUserAuth && to.path !== PAGE_PATH.login) {
+  if (!guestRoutes.includes(to.path)) {
     return navigateTo(PAGE_PATH.login);
   }
+
+  return;
 });

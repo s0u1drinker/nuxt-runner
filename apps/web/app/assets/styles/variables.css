@@ -3,7 +3,10 @@
   --color-text: #1f2937;
   --black: #000;
   --white: #fff;
-  --red: red;
+  --white-alpha50: #ffffff80;
+  --error: red;
+  --success: green;
+  --warning: orange;
   /* Основные отступы */
   --indent: 1rem;
   --indent-quarter: calc(var(--indent) / 4);/* 0.25x */
