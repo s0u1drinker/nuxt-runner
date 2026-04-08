@@ -7,3 +7,7 @@ export const LISTENER = {
 export const DELAY = {
   resize: 500,
 } as const;
+
+export const POPOVER_ID = {
+  userMenu: 'userMenu',
+} as const;
