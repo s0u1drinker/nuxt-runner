@@ -6,3 +6,5 @@ export * from './components';
 export * from './message';
 export * from './animation';
 export * from './class';
+export * from './user';
+export * from './popover';
