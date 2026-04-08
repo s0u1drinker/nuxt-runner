@@ -1,22 +1,25 @@
-<script setup lang="ts">
-  import { PAGE_PATH } from '@constants';
-
-  /** Завершение сеанса. */
-  const logoutUser = () => {
-    userLogOut();
-    navigateTo(PAGE_PATH.login);
-  };
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <header class="header">
-    Header
-    <VscButton
-      text="Выход"
-      button-style="plain"
-      @click="logoutUser"
-    />
+    <Logo />
+    <div class="header__navigation">
+      <Navigation />
+    </div>
+    <UserPanel />
   </header>
 </template>
 
-<style scoped></style>
+<style scoped lang="postcss">
+  .header {
+    padding: var(--indent);
+    display: flex;
+    gap: var(--indent);
+    align-items: center;
+
+    &__navigation {
+      flex: 1;
+      text-align: center;
+    }
+  }
+</style>
