@@ -1,22 +1,22 @@
-import { PAGE_PATH } from '@constants';
+import { PAGES, GUEST_NAV_LIST } from '@constants';
 
 /**
  * Глобальный middleware для проверки аутентификации пользователя.
  */
 export default defineNuxtRouteMiddleware((to, from) => {
-  const isUserAuth = isUserAuthenticated();
-  const guestRoutes: string[] = [PAGE_PATH.login, PAGE_PATH.signup];
+  const { isUserAuthenticated } = useAuth();
+  const guestRoutes: string[] = GUEST_NAV_LIST.map((key) => PAGES[key].path);
 
-  if (isUserAuth) {
+  if (isUserAuthenticated()) {
     if (guestRoutes.includes(to.path)) {
-      return navigateTo(PAGE_PATH.index);
+      return navigateTo(PAGES.index.path);
     }
 
     return;
   }
 
   if (!guestRoutes.includes(to.path)) {
-    return navigateTo(PAGE_PATH.login);
+    return navigateTo(PAGES.login.path);
   }
 
   return;
