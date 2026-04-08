@@ -23,3 +23,50 @@ body {
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-primary);
+  transition: color var(--transition);
+
+  &:hover,
+  &:visited:hover {
+    color: var(--color-primary-hover);
+  }
+
+  &:visited {
+    color: var(--color-primary);
+  }
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--indent-half);
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  padding: var(--indent-quarter) var(--indent-half);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  transition:
+    color var(--vsc-transition),
+    background-color var(--vsc-transition),
+    transform var(--vsc-transition);
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .35;
+  }
+}

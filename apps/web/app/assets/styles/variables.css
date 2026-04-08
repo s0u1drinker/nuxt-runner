@@ -1,12 +1,32 @@
 :root {
   /* Цвет */
-  --color-text: #1f2937;
   --black: #000;
   --white: #fff;
   --white-alpha50: #ffffff80;
-  --error: red;
-  --success: green;
-  --warning: orange;
+  
+  --color-text: #1f2937;
+
+  --color-primary: #2563EB;
+  --color-primary-mix-transparent-10: color-mix(in srgb, var(--color-primary) 10%, transparent);;
+  --color-primary-mix-transparent-20: color-mix(in srgb, var(--color-primary) 20%, transparent);;
+  --color-primary-hover: #1940ab;
+
+  --color-secondary: #06B6D4;
+  --color-secondary-hover: #0891B2;
+
+  --color-success: #22C55E;
+  --color-success-text: #16A34A;
+
+  --color-warning: #FBBF24;
+  --color-warning-text: #F97316;
+  
+  --color-error: #F43F5E;
+  --color-error-text: #E11D48;
+  
+  --color-gray-400: #E2E8F0;
+  --color-gray-500: #94A3B8;
+  --color-gray-600: #475569;
+  --color-gray-700: #1E293B;
   /* Основные отступы */
   --indent: 1rem;
   --indent-quarter: calc(var(--indent) / 4);/* 0.25x */
@@ -15,10 +35,14 @@
   --indent-double: calc(var(--indent) * 2);/* 2x */
   /* Внешний вид блоков */
   --border: 1px solid;
-  --border-radius: var(--indent-half);
+  --border-radius: 4px;
+  --radius-full: 9999px;
   /* Тени */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 1px 1px 3px #999;
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
   --shadow: 0 0 .5rem rgba(0, 0, 0, .5);
+  --shadow-active-button: inset 1px 1px 2px #333, inset -1px -1px 2px #eee;
+  /* Переходы */
+  --transition: .3s ease-out;
 }
