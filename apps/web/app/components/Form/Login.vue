@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import {
     FORM_TITLE,
-    PAGE_PATH,
+    PAGES,
     FORM_LOGIN_BASE_CLASS,
     FORM_LOGIN_EL_CLASS,
     FORM_LOGIN_MODIFIERS,
@@ -9,9 +9,10 @@
   } from '@constants';
   import type { TFormLoginModifier } from '@types';
 
+  const { userLogIn } = useAuth();
   const { fadeIn, fadeOut } = useAnimationGSAP();
   const animateAuthForm = useState<boolean>('animateAuthForm', () => false);
-  const userLogin = ref<string>('');
+  const userName = ref<string>('');
   const userPassword = ref<string>('');
   const message = ref<string>('');
   const formLoginRef = ref<HTMLElement | null>(null);
@@ -36,20 +37,13 @@
 
     fadeOut(formLoginRef.value, {
       onComplete: () => {
-        navigateTo(PAGE_PATH.signup);
+        navigateTo(PAGES.signup.path);
       },
     });
   };
   /** Напомнить пароль. */
   const remindPassword = () => {
     message.value = MESSAGE_MAP.mem.fiasco;
-  };
-
-  /** Вход на сайт без логина и пароля. */
-  const loginForPoliteUsers = () => {
-    if (userLogIn()) {
-      navigateTo(PAGE_PATH.index);
-    }
   };
 
   onMounted(() => {
@@ -80,7 +74,7 @@
           :class="FORM_LOGIN_EL_CLASS.item"
           label="Логин"
           label-style="column"
-          v-model="userLogin"
+          v-model="userName"
         />
         <VscInputPassword
           id="password"
@@ -116,7 +110,7 @@
         <VscButton
           text="А можно просто посмотреть?"
           button-style="plain"
-          @click="loginForPoliteUsers"
+          @click="userLogIn"
         />
       </template>
     </FormBase>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import {
     FORM_TITLE,
-    PAGE_PATH,
+    PAGES,
     FORM_REGISTRATION_BASE_CLASS,
     FORM_REGISTRATION_EL_CLASS,
     FORM_REGISTRATION_MODIFIERS,
@@ -9,9 +9,10 @@
   } from '@constants';
   import type { TFormRegistrationModifier } from '@types';
 
+  const { userLogIn } = useAuth();
   const { fadeIn, fadeOut } = useAnimationGSAP();
   const animateAuthForm = useState<boolean>('animateAuthForm', () => false);
-  const userLogin = ref<string>('');
+  const userName = ref<string>('');
   const userPassword = ref<string>('');
   const userPasswordRepeat = ref<string>('');
   const message = ref<string>('');
@@ -33,19 +34,13 @@
 
     fadeOut(FORM_SELECTOR, {
       onComplete: () => {
-        navigateTo(PAGE_PATH.login);
+        navigateTo(PAGES.login.path);
       },
     });
   };
   /** Регистрация на сайте. */
   const registration = () => {
     message.value = MESSAGE_MAP.notWorking.notReady;
-  };
-  /** Вход на сайт без логина и пароля. */
-  const loginForPoliteUsers = () => {
-    if (userLogIn()) {
-      navigateTo(PAGE_PATH.index);
-    }
   };
 
   onMounted(() => {
@@ -72,7 +67,7 @@
         :class="FORM_REGISTRATION_EL_CLASS.item"
         label="Электронная почта"
         label-style="column"
-        v-model="userLogin"
+        v-model="userName"
       />
       <VscInputPassword
         id="password"
@@ -112,7 +107,7 @@
       <VscButton
         text="А можно просто посмотреть?"
         button-style="plain"
-        @click="loginForPoliteUsers"
+        @click="userLogIn"
       />
     </template>
   </FormBase>
