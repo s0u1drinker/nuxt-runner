@@ -1,5 +1,5 @@
 <script setup lang="ts"></script>
 
-<template>Dashboard</template>
+<template>Data</template>
 
 <style scoped></style>
