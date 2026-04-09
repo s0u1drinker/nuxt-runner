@@ -6,7 +6,7 @@
     <div class="header__navigation">
       <Navigation />
     </div>
-    <UserPanel />
+    <UserPanel class="header__user" />
   </header>
 </template>
 
@@ -15,11 +15,26 @@
     padding: var(--indent);
     display: flex;
     gap: var(--indent);
+    justify-content: center;
     align-items: center;
+    position: sticky;
+    top: 0;
 
-    &__navigation {
-      flex: 1;
-      text-align: center;
+    &__navigation,
+    &__user {
+      display: none;
+    }
+
+    @media (--bp-xl) {
+      &__navigation,
+      &__user {
+        display: block;
+      }
+
+      &__navigation {
+        flex: 1;
+        text-align: center;
+      }
     }
   }
 </style>

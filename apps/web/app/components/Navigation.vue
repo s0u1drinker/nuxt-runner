@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  import { PAGES, MAIN_NAV_LIST } from '@constants';
-  import type { TNavList } from '@types';
+  import { MAIN_NAV_LIST } from '@constants';
+  import { getPagesDataByList } from '@utils';
 
-  const NAV_ITEMS: TNavList = MAIN_NAV_LIST.map((key) => PAGES[key]);
+  const NAV_ITEMS = getPagesDataByList(MAIN_NAV_LIST);
 </script>
 
 <template>
@@ -83,6 +83,10 @@
       &_active {
         color: var(--color-error-text);
         pointer-events: none;
+
+        &:hover {
+          color: var(--color-error-text);
+        }
       }
     }
   }

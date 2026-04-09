@@ -1,4 +1,22 @@
-import type { UnknownFunction, ThrottledFunction, ReturnTimeOut } from '~/types';
+import { PAGES } from '@constants';
+import type {
+  UnknownFunction,
+  ThrottledFunction,
+  ReturnTimeOut,
+  TPageMainNav,
+  TNavList,
+} from '@types';
+
+/**
+ * Возвращает данные страниц из списка.
+ * @param list Список страниц.
+ * @returns Массив данных страниц.
+ */
+export function getPagesDataByList(list: TPageMainNav): TNavList {
+  if (!Array.isArray(list) || !list.length) return [];
+
+  return list.map((key) => PAGES[key]);
+}
 
 /** Универсальная проверка на SSR. */
 export function isSSR(): boolean {
