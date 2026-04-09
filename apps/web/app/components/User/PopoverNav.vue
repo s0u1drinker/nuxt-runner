@@ -35,7 +35,7 @@
           active-class="user-navigation__link_active"
           exact-active-class="user-navigation__link_active"
         >
-          <VscIcon icon-name="mdi:settings" />
+          <VscIcon :icon-name="PAGES.settings.icon" />
           {{ PAGES.settings.text }}
         </NuxtLink>
       </li>
