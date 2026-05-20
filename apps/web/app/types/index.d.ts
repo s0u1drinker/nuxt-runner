@@ -1,3 +1,4 @@
+export * from 'shared-types';
 export * from './route';
 export * from './device';
 export * from './background';
@@ -6,5 +7,4 @@ export * from './components';
 export * from './message';
 export * from './animation';
 export * from './class';
-export * from './user';
 export * from './popover';

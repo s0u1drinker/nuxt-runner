@@ -3,9 +3,14 @@ import type { IUser } from '@types';
 export const useUserStore = defineStore('user', () => {
   const user = ref<IUser | null>(null);
 
+  /** Полное имя пользователя. */
+  const userFullName = computed(() =>
+    `${user.value?.firstName || ''} ${user.value?.lastName || ''}`.trim(),
+  );
+
   /** Инициалы для аватарки. */
   const initialsForAvatar = computed(() => {
-    const username = user.value?.name;
+    const username = userFullName.value;
 
     if (!username) {
       return '';
@@ -17,24 +22,21 @@ export const useUserStore = defineStore('user', () => {
       .join('');
   });
 
-  /** Запрос данных пользователя. */
-  async function updateUserStore() {
-    user.value = {
-      id: 'abcd123',
-      name: 'Дмитрий Колготин',
-      avatar: '',
-    };
+  /** Обновление данных о пользователе. */
+  function updateUserData(newUserData: IUser) {
+    user.value = newUserData;
   }
 
   /** Очистка данных пользователя. */
-  function clearUserStore() {
+  function clearUserData() {
     user.value = null;
   }
 
   return {
     user,
+    userFullName,
     initialsForAvatar,
-    updateUserStore,
-    clearUserStore,
+    updateUserData,
+    clearUserData,
   };
 });

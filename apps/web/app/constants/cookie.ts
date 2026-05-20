@@ -1,5 +1,5 @@
 export const COOKIE_PREFIX = 'nuxt_runner_';
 
 export const COOKIE_ITEMS = {
-  auth: `${COOKIE_PREFIX}auth`,
+  authToken: `${COOKIE_PREFIX}auth_token`,
 } as const;

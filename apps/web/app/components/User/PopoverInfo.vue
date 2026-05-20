@@ -13,7 +13,7 @@
   <div class="user-popover-info">
     <UserAvatar size="md" />
     <div class="user-popover-info__name-wrapper">
-      <span class="user-popover-info__username">{{ userStore.user?.name }}</span>
+      <span class="user-popover-info__username">{{ userStore.userFullName }}</span>
       <NuxtLink
         v-if="route.path !== PAGES.profile.path"
         class="user-popover-info__link"

@@ -12,7 +12,7 @@
       :popovertarget="POPOVER_ID.userMenu"
     >
       <UserAvatar />
-      {{ userStore.user?.name }}
+      {{ userStore.userFullName }}
     </button>
     <UserPopover :id="POPOVER_ID.userMenu" />
   </div>

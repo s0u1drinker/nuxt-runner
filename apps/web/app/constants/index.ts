@@ -4,7 +4,7 @@ export * from './background';
 export * from './window';
 export * from './components';
 export * from './message';
-export * from './sessionStorage';
+export * from './storage';
 export * from './cookie';
 export * from './auth';
 export * from './animation';

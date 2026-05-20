@@ -1,0 +1,41 @@
+generator client {
+  provider     = "prisma-client-js"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id              String      @id @default(uuid())
+  email           String      @unique
+  passwordHash    String
+  firstName       String
+  lastName        String
+  avatarUrl       String      @default("")
+  isEmailVerified Boolean     @default(false)
+  lastSignInAt    DateTime    @default(now())
+  createdAt       DateTime    @default(now())
+  tokens          UserToken[]
+
+  @@map("users")
+}
+
+model UserToken {
+  id         String   @id @default(uuid())
+  idUser     String
+  deviceId   String
+  platform   String   @default("web")
+  token      String   @unique
+  expiresAt  DateTime
+  deviceInfo String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user       User     @relation(fields: [idUser], references: [id], onDelete: Cascade)
+
+  @@unique([idUser, deviceId])
+  @@index([idUser, expiresAt])
+  @@map("tokens")
+}

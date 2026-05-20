@@ -11,9 +11,9 @@
     aria-hidden="true"
   >
     <img
-      v-if="userStore.user?.avatar"
+      v-if="userStore.user?.avatarUrl"
       class="user-avatar__img"
-      :src="userStore.user?.avatar"
+      :src="userStore.user.avatarUrl"
       alt=""
     />
     <span
