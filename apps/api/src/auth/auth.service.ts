@@ -200,6 +200,19 @@ export class AuthService {
   }
 
   /**
+   * Гостевой доступ (временное решение).
+   * @param req Request.
+   * @param res Response.
+   * @returns Access-токен.
+   */
+  async guestAccess(req: Request, res: Response) {
+    const GUEST_USER_ID =
+      this.configService.getOrThrow<string>('GUEST_USER_ID');
+
+    return this.authUser(req, res, GUEST_USER_ID);
+  }
+
+  /**
    * Вход на сайт.
    * @param req Request.
    * @param res Response.
