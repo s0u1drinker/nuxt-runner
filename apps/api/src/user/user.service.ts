@@ -130,7 +130,7 @@ export class UserService {
     const hashedToken = customSha256Hash(token, this.TOKEN_HASH_SECRET);
 
     try {
-      await this.prismaService.userToken.upsert({
+      await this.prismaService.token.upsert({
         where: {
           idUser_deviceId: { idUser, deviceId },
         },
@@ -169,7 +169,7 @@ export class UserService {
     const hashedToken = customSha256Hash(token, this.TOKEN_HASH_SECRET);
     const now = new Date();
 
-    const record = await this.prismaService.userToken.findUnique({
+    const record = await this.prismaService.token.findUnique({
       where: { token: hashedToken },
       select: {
         id: true,
@@ -199,7 +199,7 @@ export class UserService {
     const hashedToken = customSha256Hash(token, this.TOKEN_HASH_SECRET);
 
     try {
-      await this.prismaService.userToken.deleteMany({
+      await this.prismaService.token.deleteMany({
         where: { token: hashedToken },
       });
     } catch (error: unknown) {
@@ -217,7 +217,7 @@ export class UserService {
    * @param idUser Идентификатор пользователя.
    */
   async deleteAllUserSessions(idUser: string) {
-    await this.prismaService.userToken.deleteMany({
+    await this.prismaService.token.deleteMany({
       where: { idUser },
     });
   }
@@ -227,9 +227,9 @@ export class UserService {
    * @param idUser Идентификатор пользовтаеля.
    */
   async setSessionLimit(idUser: string) {
-    const sessions = await this.prismaService.userToken.findMany({
+    const sessions = await this.prismaService.token.findMany({
       where: { idUser },
-      orderBy: { updatedAt: 'asc' },
+      orderBy: { createdAt: 'asc' },
       select: { id: true },
     });
 
@@ -240,7 +240,7 @@ export class UserService {
 
     const extraSessionsID = extraSessions.map((s) => s.id);
 
-    await this.prismaService.userToken.deleteMany({
+    await this.prismaService.token.deleteMany({
       where: {
         id: { in: extraSessionsID },
       },
@@ -252,7 +252,7 @@ export class UserService {
    * TODO: Использовать в CRON.
    */
   async deleteExpiredSessions() {
-    await this.prismaService.userToken.deleteMany({
+    await this.prismaService.token.deleteMany({
       where: {
         expiresAt: { lte: new Date() },
       },

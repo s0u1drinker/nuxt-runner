@@ -8,34 +8,60 @@ datasource db {
 }
 
 model User {
-  id              String      @id @default(uuid())
-  email           String      @unique
-  passwordHash    String
-  firstName       String
-  lastName        String
-  avatarUrl       String      @default("")
-  isEmailVerified Boolean     @default(false)
-  lastSignInAt    DateTime    @default(now())
-  createdAt       DateTime    @default(now())
-  tokens          UserToken[]
+  id              String    @id @default(uuid())
+  email           String    @unique
+  passwordHash    String    @map("password_hash")
+  firstName       String    @map("first_name")
+  lastName        String    @map("last_name")
+  avatarUrl       String    @default("") @map("avatar_url")
+  isEmailVerified Boolean   @default(false) @map("is_email_verified")
+  lastSignInAt    DateTime  @default(now()) @map("last_sign_in_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  tokens          Token[]
+  workouts        Workout[]
 
-  @@map("users")
+  @@map("user")
 }
 
-model UserToken {
+model Token {
   id         String   @id @default(uuid())
-  idUser     String
-  deviceId   String
+  idUser     String   @map("id_user")
+  deviceId   String   @map("device_id")
   platform   String   @default("web")
   token      String   @unique
-  expiresAt  DateTime
-  deviceInfo String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  expiresAt  DateTime @map("expires_at")
+  deviceInfo String   @map("device_info")
+  createdAt  DateTime @default(now()) @map("created_at")
 
-  user       User     @relation(fields: [idUser], references: [id], onDelete: Cascade)
+  user User @relation(fields: [idUser], references: [id], onDelete: Cascade)
 
   @@unique([idUser, deviceId])
   @@index([idUser, expiresAt])
-  @@map("tokens")
+  @@map("token")
+}
+
+model WorkoutType {
+  id       String    @id @default(uuid())
+  title    String    @unique
+  workouts Workout[]
+
+  @@map("workout_type")
+}
+
+model Workout {
+  id          String   @id @default(uuid())
+  idUser      String   @map("id_user")
+  day         DateTime @default(now())
+  idType      String   @map("id_type")
+  workoutData Json     @map("workout_data")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user User        @relation(fields: [idUser], references: [id], onDelete: Cascade)
+  type WorkoutType @relation(fields: [idType], references: [id])
+
+  @@index([day])
+  @@index([idUser, day])
+  @@map("workout")
 }
