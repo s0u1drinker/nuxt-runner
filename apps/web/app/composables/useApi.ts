@@ -1,21 +1,22 @@
-import { COOKIE_ITEMS } from '@constants';
 import { DEVICE_PLATFORM } from 'shared';
 import { getOrCreateDeviceId } from '@utils';
 
 /** Composable для работы с REST API. */
 export function useApi() {
+  const userStore = useUserStore();
   const config = useRuntimeConfig();
   const apiBaseUrl = config.public.apiBase;
   const apiFetch = $fetch.create({
     baseURL: apiBaseUrl,
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
     onRequest({ options }) {
-      const authToken = useCookie(COOKIE_ITEMS.authToken);
+      const authToken = userStore.userToken;
 
-      if (authToken.value) {
-        options.headers.set('Authorization', `Bearer ${authToken.value}`);
+      if (authToken) {
+        options.headers.set('Authorization', `Bearer ${authToken}`);
       }
 
       const deviceId = getOrCreateDeviceId();
@@ -32,6 +33,11 @@ export function useApi() {
     return apiFetch<T>(url, { method: 'GET' });
   };
 
+  /** Обычный POST-запрос. Возвращает Promise с данными. */
+  const postDataFromAPI = <T>(url: string) => {
+    return apiFetch<T>(url, { method: 'POST' });
+  };
+
   /** Реактивный GET-запрос. Оборачивает обычный запрос в useAsyncData. */
   const getAsyncDataFromAPI = <T>(url: string) => {
     return useAsyncData<T>(url, () => getDataFromAPI<T>(url));
@@ -39,6 +45,7 @@ export function useApi() {
 
   return {
     getDataFromAPI,
+    postDataFromAPI,
     getAsyncDataFromAPI,
   };
 }

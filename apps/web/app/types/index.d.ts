@@ -1,4 +1,4 @@
-export * from 'shared-types';
+export * from 'shared';
 export * from './route';
 export * from './device';
 export * from './background';

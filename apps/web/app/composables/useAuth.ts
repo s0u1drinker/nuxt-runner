@@ -1,42 +1,76 @@
-import { COOKIE_ITEMS, AUTH_MESSAGE_PREFIX, PAGES, AUTH_ERROR_MAP } from '@constants';
-import type { IAuthResponse } from '@types';
+import { AUTH_MESSAGE_PREFIX, PAGES, AUTH_ERROR_MAP } from '@constants';
+import { FetchError } from 'ofetch';
+import type { IAuthResponse, IUser } from '@types';
 
 export function useAuth() {
   const userStore = useUserStore();
-  const { getDataFromAPI, getAsyncDataFromAPI } = useApi();
-  const authToken = useCookie(COOKIE_ITEMS.authToken, {
-    maxAge: 3 * 60 * 60,
-    path: '/',
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-  });
+  const { getDataFromAPI, postDataFromAPI } = useApi();
 
   /**
    * @returns Результат проверки аутентификации пользователя.
    */
-  const isUserAuthenticated = () => {
-    if (!!useCookie(COOKIE_ITEMS.authToken).value) {
+  const isUserAuthenticated = async () => {
+    if (userStore.userToken && userStore.user) {
       return true;
     }
 
-    return false;
+    if (userStore.userToken) {
+      try {
+        const user = await getDataFromAPI<IUser>('user/me');
+
+        userStore.updateUserData(user);
+        
+        return true;
+      } catch (error: unknown) {
+        console.error(`${AUTH_MESSAGE_PREFIX} Ошибка при получении данных пользовател:`, error);
+  
+        return false;
+      }
+    }
+
+    try {
+      const responseToken = await postDataFromAPI<IAuthResponse>('auth/refresh');
+
+      if (!responseToken.accessToken) {
+        throw new Error(AUTH_ERROR_MAP.noToken);
+      }
+
+      userStore.updateUserToken(responseToken.accessToken);
+
+      return true;
+    } catch (error: unknown) {
+      if (error instanceof FetchError) {
+        const { statusCode } = error;
+
+        if (statusCode === 401) {
+          return false;
+        }
+      }
+
+      console.error(`${AUTH_MESSAGE_PREFIX} Пользователь не авторизован:`, error);
+
+      return false;
+    }
   };
 
   /** Аутентификация пользователя на сайте. */
   const userLogIn = async () => {
     try {
-      const response = await getDataFromAPI<IAuthResponse>('auth/guest');
+      const responseToken = await getDataFromAPI<IAuthResponse>('auth/guest');
 
-      if (!response.token) {
+      if (!responseToken.accessToken) {
         throw new Error(AUTH_ERROR_MAP.noToken);
       }
 
-      if (!response.userData || !Object.keys(response.userData).length) {
+      userStore.updateUserToken(responseToken.accessToken);
+
+      const responseUserData = await getDataFromAPI<IUser>('user/me');
+
+      if (!responseUserData || !Object.keys(responseUserData).length) {
         throw new Error(AUTH_ERROR_MAP.noData);
       }
 
-      authToken.value = response.token;
-      userStore.updateUserData(response.userData);
+      userStore.updateUserData(responseUserData);
 
       navigateTo(PAGES.index.path);
     } catch (error) {
@@ -46,7 +80,9 @@ export function useAuth() {
 
   /** Деаутентификация пользователя на сайте. */
   const userLogOut = async () => {
-    authToken.value = null;
+    await postDataFromAPI('auth/logout');
+    
+    userStore.updateUserToken();
 
     await navigateTo(PAGES.login.path);
 
